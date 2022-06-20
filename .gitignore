@@ -1,0 +1,8 @@
+.env
+test.js
+node_modules
+logs
+photos
+lang-pl.json
+#due to private information
+settings.json

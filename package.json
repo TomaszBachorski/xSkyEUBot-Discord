@@ -1,0 +1,31 @@
+{
+  "name": "discord-bots",
+  "version": "1.5.8",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "iThomash",
+  "license": "ISC",
+  "dependencies": {
+    "@discordjs/opus": "^0.3.2",
+    "ascii-table": "0.0.9",
+    "cheerio": "^1.0.0-rc.3",
+    "common-tags": "^1.8.0",
+    "covidapi": "^0.5.0",
+    "discord.js": "^13.8.0",
+    "dotenv": "^8.2.0",
+    "ffmpeg-static": "^4.2.6",
+    "minecraft-server-util": "^1.4.2",
+    "mojang-api": "0.0.2",
+    "moment": "^2.29.0",
+    "ms": "^2.1.2",
+    "mysql": "^2.18.1",
+    "node-fetch": "^2.6.1",
+    "prompt-sync": "^4.2.0",
+    "request": "^2.88.2",
+    "requests": "^0.3.0",
+    "ytdl-core": "^3.2.1"
+  }
+}
