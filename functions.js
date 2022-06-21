@@ -28,7 +28,7 @@ module.exports = {
     isMonth: function (month) {
         month.toLowerCase();
         if (month === "all") return "all";
-        if (new Date(`1 ${month}`).getMonth()!==0 || month==="january") return new Date(`1 ${month}`).getMonth();
+        if (!isNaN(new Date(`1 ${month}`).getMonth())) return new Date(`1 ${month}`).getMonth();
         return false;
     },
     

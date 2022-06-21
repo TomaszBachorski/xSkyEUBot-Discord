@@ -34,7 +34,7 @@ module.exports = {
                 }
                 if (bulion === false) {
                     anotherBoolean = true;
-                    return message.channel.send({content:"Kolumna nie istnieje"})
+                    return message.channel.send({ content: "Kolumna nie istnieje" })
                 } else {
                     connection.query(`SELECT SUM(${columnName}) as messCount FROM messages`, (err, result) => {
                         if (err) throw err;
@@ -50,7 +50,7 @@ module.exports = {
             columnName = "allMessages";
         } else if (args[0] && !isNaN(functions.isMonth(args[0]))) {
             columnName = functions.createMysqlTable(functions.isMonth(args[0])) + date.getFullYear();
-            connection.query("SHOW COLUMNS FROM messages", function (err, result) {
+            connection.query("SHOW COLUMNS FROM messages", (err, result) => {
                 if (err) throw err;
                 for (let i = 0; i < result.length; i++) {
                     if (result[i].Field === columnName) {
@@ -79,10 +79,10 @@ module.exports = {
         const delay = (msec) => new Promise((resolve) => setTimeout(resolve, msec));
         await delay(500)
         connection.query(`SELECT SUM(${columnName}) as allMessages FROM messages`, (err, result) => {
-            if (validMonth === false && args[0] !== "all" && (!isNaN(functions.isMonth(args[0])))) return message.channel.send({content: "W miesiącu, który podano nie napisano nic lub zrobiłeś literówkę"});
+            if (validMonth === false && args[0] !== "all" && (!isNaN(functions.isMonth(args[0])))) return message.channel.send({ content: "W miesiącu, który podano nie napisano nic lub zrobiłeś literówkę" });
             if (err) throw err;
             embed.setDescription(`Zostało wysłane ${(result[0].allMessages + 1)} wiadomości`);
-            return message.channel.send({embeds: [embed]});
+            return message.channel.send({ embeds: [embed] });
         });
         return;
     }
