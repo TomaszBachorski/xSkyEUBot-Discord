@@ -1,5 +1,6 @@
 .env
 test.js
+test2.js
 node_modules
 logs
 photos

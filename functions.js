@@ -1,6 +1,4 @@
-const ytdl = require("ytdl-core");
-const fs = require("fs");
-const mysql = require("mysql");
+
 module.exports = {
     formatDate: function (date) {
         return new Intl.DateTimeFormat('pl-PL').format(date);

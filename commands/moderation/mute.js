@@ -38,6 +38,7 @@ module.exports = {
         let connection = mysql.createConnection({
             host: settings.mySQLhost,
             user: settings.mySQLuser,
+            password: settings.mySQLpassword,
             database: "xskyblock database"
         });
         connection.query(`SELECT * FROM users WHERE id = ${personID}`, (err, result) => {

@@ -20,5 +20,4 @@ module.exports = (client) => {
         }
     });
     console.log(table.toString());
-    fs.appendFileSync("./logs/"+formatDate()+".txt", table + "\n");
 }

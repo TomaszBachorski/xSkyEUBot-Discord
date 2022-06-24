@@ -14,6 +14,7 @@ module.exports = {
         let connection = mysql.createConnection({
             host: settings.mySQLhost,
             user: settings.mySQLuser,
+            password: settings.mySQLpassword,
             database: "xskyblock database"
         })
         let personID = "";

@@ -10,8 +10,6 @@ module.exports = {
     run: async (client, message, args) => {
         if (args[0] && !message.mentions.members.first()) return message.channel.send({content: "Nie oznaczono osoby"});
         let member = message.mentions.members.first() || message.member;
-        console.log(member)
-        console.log(message.mentions.members.first())
         const filteredRoles = member.roles.cache.filter(role => role.id != message.guild.id);
         const listedRoles = filteredRoles.sort((a, b) => b.position - a.position).map(role => role.toString());
 

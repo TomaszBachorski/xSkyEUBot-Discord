@@ -13,6 +13,7 @@ module.exports = {
         let connection = mysql.createConnection({
             host: settings.mySQLhost,
             user: settings.mySQLuser,
+            password: settings.mySQLpassword,
             database: "xskyblock database"
         });
         connection.query(`SELECT * FROM users WHERE permissions>0 ORDER BY permissions ASC`, function(err, result) {

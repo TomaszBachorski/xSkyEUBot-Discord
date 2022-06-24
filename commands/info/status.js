@@ -11,7 +11,6 @@ module.exports = {
         const settings = require("../../settings.json");
         ping(settings.serverAddress, settings.port, (error, response) => {
             if (error) throw error;
-            console.log(response)
             const embed = new Discord.MessageEmbed()
                 .setColor("ORANGE")
                 .setTitle("Status serwera")
