@@ -12,7 +12,6 @@ module.exports = {
         let channelDescription = "";
         let channelName = "";
         let channelType = "";
-        console.log(message.member.voice.channel)
         if (message.channel.type==="GUILD_TEXT"&&!message.member.voice.channel) {
             channelName = message.channel.name
             channelType = "Kanał tekstowy";
