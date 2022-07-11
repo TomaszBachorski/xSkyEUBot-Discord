@@ -41,7 +41,7 @@ module.exports = {
             password: settings.mySQLpassword,
             database: settings.mySQLdatabase
         });
-        connection.query(`SELECT * FROM users WHERE id = ${personID}`, (err, result) => {
+        connection.query(`SELECT * FROM users WHERE id = "${personID}"`, (err, result) => {
             if (err) throw err;
             if (!result) return;
             if (result[0].permissions === 10) return CanIBeMuted = false;
