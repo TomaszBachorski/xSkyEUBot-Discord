@@ -21,7 +21,7 @@ module.exports = {
             host: settings.mySQLhost,
             user: settings.mySQLuser,
             password: settings.mySQLpassword,
-            database: "xskyblock database"
+            database: settings.mySQLdatabase
         });
         if (args.length === 0) {
             connection.query(`SHOW COLUMNS FROM messages LIKE '%${year}'`, (err, result) => {

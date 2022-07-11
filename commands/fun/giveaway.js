@@ -15,7 +15,7 @@ module.exports = {
             host: settings.mySQLhost,
             user: settings.mySQLuser,
             password: settings.mySQLpassword,
-            database: "xskyblock database"
+            database: settings.mySQLdatabase
         });
         if (!args[0]) return message.channel.send({ content: "Czas nie jest sprecyzowany" });
         if (!args[0].endsWith("d") && !args[0].endsWith("h") && !args[0].endsWith("m") && !args[0].endsWith("s")) return message.channel.send({ content: "To nie jest prawidłowy format czasu" });

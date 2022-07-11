@@ -15,7 +15,7 @@ module.exports = {
             host: settings.mySQLhost,
             user: settings.mySQLuser,
             password: settings.mySQLpassword,
-            database: "xskyblock database"
+            database: settings.mySQLdatabase
         })
         let personID = "";
         if (!message.mentions.members.first()) return message.channel.send({content: "Musisz oznaczyć osobę"})

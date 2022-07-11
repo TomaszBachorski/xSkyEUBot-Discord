@@ -15,7 +15,7 @@ module.exports = {
             host: settings.mySQLhost,
             user: settings.mySQLuser,
             password: settings.mySQLpassword,
-            database: "xskyblock database"
+            database: settings.mySQLdatabase
         });
         const embed = new Discord.MessageEmbed().setColor("ORANGE");
         let value = 0;

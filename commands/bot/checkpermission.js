@@ -14,7 +14,7 @@ module.exports = {
             host: settings.mySQLhost,
             user: settings.mySQLuser,
             password: settings.mySQLpassword,
-            database: "xskyblock database"
+            database: settings.mySQLdatabase
         });
         connection.query(`SELECT * FROM users WHERE permissions>0 ORDER BY permissions ASC`, function(err, result) {
             if (err) throw err;

@@ -39,7 +39,7 @@ module.exports = {
             host: settings.mySQLhost,
             user: settings.mySQLuser,
             password: settings.mySQLpassword,
-            database: "xskyblock database"
+            database: settings.mySQLdatabase
         });
         connection.query(`SELECT * FROM users WHERE id = ${personID}`, (err, result) => {
             if (err) throw err;

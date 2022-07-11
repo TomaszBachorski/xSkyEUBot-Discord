@@ -19,7 +19,7 @@ module.exports = {
             host: settings.mySQLhost,
             user: settings.mySQLuser,
             password: settings.mySQLpassword,
-            database: "xskyblock database"
+            database: settings.mySQLdatabase
         });
         let bulion = false;
         if (args[0] && !isNaN(args[0].slice(-4)) && isNaN(args[0])) {

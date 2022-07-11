@@ -14,7 +14,7 @@ module.exports = {
             host: settings.mySQLhost,
             user: settings.mySQLuser,
             password: settings.mySQLpassword,
-            database: "xskyblock database"
+            database: settings.mySQLdatabase
         });
         
         let muterole = message.guild.roles.cache.find(role => role.id === settings.muteRole);
