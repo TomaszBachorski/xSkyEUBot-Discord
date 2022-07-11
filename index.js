@@ -326,11 +326,11 @@ client.on("messageCreate", async message => {
         }
         return;
     });
-    connection.query(`SELECT * FROM Messages WHERE id = '${message.author.id}'`, function (err, result) {
+    connection.query(`SELECT * FROM messages WHERE id = '${message.author.id}'`, function (err, result) {
         if (err) throw err;
         if (result.length === 0) {
             let insertValues = [message.author.id, 1, 1]
-            connection.query(`INSERT INTO Messages (id, allMessages, ${columnName}) VALUES (?)`, [insertValues], function (err, result) {
+            connection.query(`INSERT INTO messages (id, allMessages, ${columnName}) VALUES (?)`, [insertValues], function (err, result) {
                 if (err) throw err;
                 return;
             });
@@ -344,7 +344,7 @@ client.on("messageCreate", async message => {
 
             }
             let allMessagesCount = (result[0].allMessages) + 1;
-            connection.query(`UPDATE Messages SET allMessages = ${allMessagesCount}, ${columnName} = ${messageCount} WHERE id = '${message.author.id}'`, function (err, result) {
+            connection.query(`UPDATE messages SET allMessages = ${allMessagesCount}, ${columnName} = ${messageCount} WHERE id = '${message.author.id}'`, function (err, result) {
                 if (err) throw err;
                 return;
             });
