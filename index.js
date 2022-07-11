@@ -40,7 +40,7 @@ client.on("ready", () => {
         host: settings.mySQLhost,
         user: settings.mySQLuser,
         password: settings.mySQLpassword,
-        database: "xskyblock database"
+        database: settings.mySQLdatabase
     });
     setInterval(() => {
         let currentTime = functions.today2() + " " + functions.time();
@@ -91,7 +91,7 @@ client.on("ready", () => {
         host: settings.mySQLhost,
         user: settings.mySQLuser,
         password: settings.mySQLpassword,
-        database: "xskyblock database"
+        database: settings.mySQLdatabase
     });
     delete require.cache[require.resolve("./settings.json")], settings;
     setInterval(() => {
@@ -127,7 +127,7 @@ client.on("ready", () => {
         host: settings.mySQLhost,
         user: settings.mySQLuser,
         password: settings.mySQLpassword,
-        database: "xskyblock database"
+        database: settings.mySQLdatabase
     });
     delete require.cache[require.resolve("./settings.json")], settings;
     setInterval(function () {
@@ -160,7 +160,7 @@ client.on("guildMemberAdd", (user) => {
         host: settings.mySQLhost,
         user: settings.mySQLuser,
         password: settings.mySQLpassword,
-        database: "xskyblock database"
+        database: settings.mySQLdatabase
     });
     const guild = client.guilds.cache.get(settings.guildId);
     let muterole = guild.roles.cache.find(role => role.id === settings.muteRole);
@@ -180,7 +180,7 @@ client.on("guildMemberAdd", function (user) {
         host: settings.mySQLhost,
         user: settings.mySQLuser,
         password: settings.mySQLpassword,
-        database: "xskyblock database"
+        database: settings.mySQLdatabase
     });
     connection.query(`SELECT * FROM bans WHERE bannedPersonID = '${user.id}'`, function (err, result) {
         if (err) throw err;
@@ -202,7 +202,7 @@ client.on("messageCreate", async message => {
         host: settings.mySQLhost,
         user: settings.mySQLuser,
         password: settings.mySQLpassword,
-        database: "xskyblock database"
+        database: settings.mySQLdatabase
     });
     delete require.cache[require.resolve("./settings.json")], settings;
     let avatar = message.author.avatarURL();
@@ -237,7 +237,7 @@ client.on("guildMemberAdd", function (user) {
         host: settings.mySQLhost,
         user: settings.mySQLuser,
         password: settings.mySQLpassword,
-        database: "xskyblock database"
+        database: settings.mySQLdatabase
     });
     delete require.cache[require.resolve("./settings.json")], settings;
     connection.connect(function (err) {
@@ -271,7 +271,7 @@ client.on("guildMemberRemove", function (user) {
         host: settings.mySQLhost,
         user: settings.mySQLuser,
         password: settings.mySQLpassword,
-        database: "xskyblock database"
+        database: settings.mySQLdatabase
     });
     delete require.cache[require.resolve("./settings.json")], settings;
     connection.connect(function (err) {
@@ -304,7 +304,7 @@ client.on("messageCreate", async message => {
         host: settings.mySQLhost,
         user: settings.mySQLuser,
         password: settings.mySQLpassword,
-        database: "xskyblock database"
+        database: settings.mySQLdatabase
     });
     delete require.cache[require.resolve("./settings.json")], settings;
     let date = new Date();
@@ -366,7 +366,7 @@ client.on("messageCreate", async message => {
         host: settings.mySQLhost,
         user: settings.mySQLuser,
         password: settings.mySQLpassword,
-        database: "xskyblock database"
+        database: settings.mySQLdatabase
     });
     let CanIuseBot = true;
     const embed = new Discord.MessageEmbed()
