@@ -141,8 +141,8 @@ client.on("ready", () => {
                     if (err) throw err;
                     if (result[i].isBanned === 0) return;
                     guild.fetchBans().then(bans => {
-                        let bUser = bans.find(b => b.user.id == result[i].bannedPersonID);
-                        guild.members.unban(bUser.user);
+                        let buser = bans.find(b => b.user.id == result[i].bannedPersonID);
+                        guild.members.unban(buser.user);
                         return;
                     });
                 });
@@ -209,18 +209,18 @@ client.on("messageCreate", async message => {
     let quot = "\'";
     if (!avatar) avatar = null;
     else avatar = quot + message.author.avatarURL() + quot;
-    //"CREATE TABLE Users (id VARCHAR(18) PRIMARY KEY, username VARCHAR(32), discriminator VARCHAR(4), avatarURL VARCHAR(255), creationDate DATE, joinDate DATE, isOnServer BOOLEAN)";
+    //"CREATE TABLE users (id VARCHAR(18) PRIMARY KEY, username VARCHAR(32), discriminator VARCHAR(4), avatarURL VARCHAR(255), creationDate DATE, joinDate DATE, isOnServer BOOLEAN)";
     let insertValues = [message.author.id, message.author.username, message.author.discriminator, avatar, message.member.user.createdAt.toISOString().slice(0,10), new Date(message.member.joinedAt).toISOString().slice(0,10), true];
-    connection.query(`SELECT * FROM Users WHERE id = '${message.author.id}'`, (err, result) => {
+    connection.query(`SELECT * FROM users WHERE id = '${message.author.id}'`, (err, result) => {
         if (err) throw err;
         if (result.length === 0) {
-            connection.query("INSERT INTO Users (id, username, discriminator, avatarURL, creationDate, joinDate, isOnServer) VALUES (?)", [insertValues], (err, result) => {
+            connection.query("INSERT INTO users (id, username, discriminator, avatarURL, creationDate, joinDate, isOnServer) VALUES (?)", [insertValues], (err, result) => {
                 if (err) throw err;
                 return;
             });
             return;
         } else {
-            connection.query(`UPDATE Users SET id = '${message.author.id}', username = '${message.author.username}', discriminator = '${message.author.discriminator}', avatarURL = ${avatar}, creationDate = '${message.member.user.createdAt.toISOString().slice(0,10)}', joinDate = '${message.member.joinedAt.toISOString().slice(0,10)}', isOnServer = true WHERE id = '${message.author.id}'`, [insertValues], function (err, result) {
+            connection.query(`UPDATE users SET id = '${message.author.id}', username = '${message.author.username}', discriminator = '${message.author.discriminator}', avatarURL = ${avatar}, creationDate = '${message.member.user.createdAt.toISOString().slice(0,10)}', joinDate = '${message.member.joinedAt.toISOString().slice(0,10)}', isOnServer = true WHERE id = '${message.author.id}'`, [insertValues], function (err, result) {
                 if (err) throw err;
                 return;
             });
@@ -245,17 +245,17 @@ client.on("guildMemberAdd", function (user) {
         let avatar = user.user.avatarURL();
         if (!avatar) avatar = null;
         else avatar = user.user.avatarURL();
-        //"CREATE TABLE Users (id VARCHAR(18) PRIMARY KEY, username VARCHAR(32), discriminator VARCHAR(4), avatarURL VARCHAR(255), creationDate DATE, joinDate DATE, isOnServer BOOLEAN)";
+        //"CREATE TABLE users (id VARCHAR(18) PRIMARY KEY, username VARCHAR(32), discriminator VARCHAR(4), avatarURL VARCHAR(255), creationDate DATE, joinDate DATE, isOnServer BOOLEAN)";
         let insertValues = [user.user.id, user.user.username, user.user.discriminator, avatar, functions.formatDate(user.user.createdAt), functions.formatDate(user.joinedAt), true];
-        connection.query(`SELECT * FROM Users WHERE id = '${user.user.id}'`, function (err, result) {
+        connection.query(`SELECT * FROM users WHERE id = '${user.user.id}'`, function (err, result) {
             if (err) throw err;
             if (result.length === 0) {
-                connection.query("INSERT INTO Users (id, username, discriminator, avatarURL, creationDate, joinDate, isOnServer) VALUES (?)", [insertValues], function (err, result) {
+                connection.query("INSERT INTO users (id, username, discriminator, avatarURL, creationDate, joinDate, isOnServer) VALUES (?)", [insertValues], function (err, result) {
                     if (err) throw err;
                 });
                 return;
             } else {
-                connection.query(`UPDATE Users SET id = '${user.user.id}', username = '${user.user.username}', discriminator = '${user.user.discriminator}', avatarURL = ${avatar}, creationDate = '${functions.formatDate(user.user.createdAt)}', joinDate = '${functions.formatDate(user.joinedAt)}', isOnServer = true WHERE id = '${user.user.id}'`, [insertValues], function (err, result) {
+                connection.query(`UPDATE users SET id = '${user.user.id}', username = '${user.user.username}', discriminator = '${user.user.discriminator}', avatarURL = ${avatar}, creationDate = '${functions.formatDate(user.user.createdAt)}', joinDate = '${functions.formatDate(user.joinedAt)}', isOnServer = true WHERE id = '${user.user.id}'`, [insertValues], function (err, result) {
                     if (err) throw err;
                 });
                 return;
@@ -283,11 +283,11 @@ client.on("guildMemberRemove", function (user) {
         } else {
             avatar = quot + user.user.avatarURL() + quot;
         }
-        //CREATE TABLE Users (id VARCHAR(18) PRIMARY KEY, username VARCHAR(32), discriminator VARCHAR(4), avatarURL VARCHAR(255), creationDate DATE(), joinDate DATE(), isOnServer BOOLEAN);
-        connection.query(`SELECT * FROM Users WHERE id = '${user.user.id}'`, function (err, result) {
+        //CREATE TABLE users (id VARCHAR(18) PRIMARY KEY, username VARCHAR(32), discriminator VARCHAR(4), avatarURL VARCHAR(255), creationDate DATE(), joinDate DATE(), isOnServer BOOLEAN);
+        connection.query(`SELECT * FROM users WHERE id = '${user.user.id}'`, function (err, result) {
             if (err) throw err;
             let insertValues = [user.user.id, user.user.username, user.user.discriminator, avatar, functions.formatDate(user.user.createdAt), functions.formatDate(user.joinedAt), false]
-            connection.query(`UPDATE Users SET id = '${user.user.id}', username = '${user.user.username}', discriminator = '${user.user.discriminator}', avatarURL = ${avatar}, creationDate = '${functions.formatDate(user.user.createdAt)}', joinDate = '${functions.formatDate(user.joinedAt)}', isOnServer = false WHERE id = '${user.user.id}'`, [insertValues], function (err, result) {
+            connection.query(`UPDATE users SET id = '${user.user.id}', username = '${user.user.username}', discriminator = '${user.user.discriminator}', avatarURL = ${avatar}, creationDate = '${functions.formatDate(user.user.createdAt)}', joinDate = '${functions.formatDate(user.joinedAt)}', isOnServer = false WHERE id = '${user.user.id}'`, [insertValues], function (err, result) {
                 if (err) throw err;
                 return;
             });
