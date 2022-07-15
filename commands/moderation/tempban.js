@@ -23,7 +23,7 @@ module.exports = {
         let user = message.guild.members.cache.get(personID);
 
         let CanIBeBanned = true;
-        connection.query(`SELECT * FROM users WHERE id = ${personID}`, (err, result) => {
+        connection.query(`SELECT * FROM users WHERE id = "${personID}"`, (err, result) => {
             if (err) throw err;
             if (!result) return;
             if (result[0].permissions === 10) return CanIBeBanned = false;

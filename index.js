@@ -48,8 +48,8 @@ client.on("ready", () => {
             if (err) throw err;
             if (result.length === 0) return;
             const guild = client.guilds.cache.get(settings.guildId);
-            let winnerrole = guild.roles.cache.find(role => role.id === settings.giveawayWinnerRole);
-            if (!winnerrole) return;
+            // let winnerrole = guild.roles.cache.find(role => role.id === settings.giveawayWinnerRole);
+            // if (!winnerrole) return;
             let winnersArray = []
             let finalWinners = "";
             let winnersCount = result[0].numberOfWinners;
@@ -105,7 +105,7 @@ client.on("ready", () => {
             if (err) throw err;
             for (let i = 0; i < result.length; i++) {
                 let user = guild.members.cache.get(result[i].mutedPersonID);
-                embed.setTitle("Zostałeś pomyślnie odciszony").setDescription(`Zostałeś wyciszony przez <@${result[i].muteBy}>, z powodu ${result[i].muteReason}. W tym momencie zostałeś odciszony i mamy nadzieję, że to już się nigdy nie powtórzy!`).setFooter({text: "Ta wiadomość została wysłana automatycznie"}).setTimestamp();
+                embed.setTitle("Zostałeś pomyślnie odciszony").setDescription(`Zostałeś wyciszony przez <@${result[i].muteBy}>, z powodu ${result[i].muteReason}. W tym momencie zostałeś odciszony i mamy nadzieję, że to już się nigdy nie powtórzy!`).setFooter({ text: "Ta wiadomość została wysłana automatycznie" }).setTimestamp();
                 connection.query(`DELETE FROM mutes WHERE mutedPersonID = '${result[i].mutedPersonID}'`, (err, result) => {
                     if (err) throw err;
                     if (!user) return;
@@ -182,53 +182,17 @@ client.on("guildMemberAdd", function (user) {
         password: settings.mySQLpassword,
         database: settings.mySQLdatabase
     });
-    connection.query(`SELECT * FROM bans WHERE bannedPersonID = '${user.id}'`, function (err, result) {
+    connection.query(`SELECT * FROM bans WHERE bannedPersonID = '${user.id}'`, (err, result) => {
         if (err) throw err;
         if (result.length === 0) return;
         user.ban({ reason: result[0].reason });
-        connection.query(`UPDATE bans SET isBanned = true WHERE bannedPersonID = ${user.id}`, function (err, result) {
+        connection.query(`UPDATE bans SET isBanned = true WHERE bannedPersonID = ${user.id}`, (err, result) => {
             if (err) throw err;
             return;
         });
-        
+
     });
 })
-
-//Updates informations about user in database every message
-client.on("messageCreate", async message => {
-    if (!message.guild) return;
-    let settings = require("./settings.json");
-    let connection = mysql.createConnection({
-        host: settings.mySQLhost,
-        user: settings.mySQLuser,
-        password: settings.mySQLpassword,
-        database: settings.mySQLdatabase
-    });
-    delete require.cache[require.resolve("./settings.json")], settings;
-    let avatar = message.author.avatarURL();
-    let quot = "\'";
-    if (!avatar) avatar = null;
-    else avatar = quot + message.author.avatarURL() + quot;
-    //"CREATE TABLE users (id VARCHAR(18) PRIMARY KEY, username VARCHAR(32), discriminator VARCHAR(4), avatarURL VARCHAR(255), creationDate DATE, joinDate DATE, isOnServer BOOLEAN)";
-    let insertValues = [message.author.id, message.author.username, message.author.discriminator, avatar, message.member.user.createdAt.toISOString().slice(0,10), new Date(message.member.joinedAt).toISOString().slice(0,10), true];
-    connection.query(`SELECT * FROM users WHERE id = '${message.author.id}'`, (err, result) => {
-        if (err) throw err;
-        if (result.length === 0) {
-            connection.query("INSERT INTO users (id, username, discriminator, avatarURL, creationDate, joinDate, isOnServer) VALUES (?)", [insertValues], (err, result) => {
-                if (err) throw err;
-                return;
-            });
-            return;
-        } else {
-            connection.query(`UPDATE users SET id = '${message.author.id}', username = '${message.author.username}', discriminator = '${message.author.discriminator}', avatarURL = ${avatar}, creationDate = '${message.member.user.createdAt.toISOString().slice(0,10)}', joinDate = '${message.member.joinedAt.toISOString().slice(0,10)}', isOnServer = true WHERE id = '${message.author.id}'`, [insertValues], function (err, result) {
-                if (err) throw err;
-                return;
-            });
-            return;
-        }
-    });
-    return;
-});
 
 //Collects information about user who joined a server
 client.on("guildMemberAdd", function (user) {
@@ -242,20 +206,15 @@ client.on("guildMemberAdd", function (user) {
     delete require.cache[require.resolve("./settings.json")], settings;
     connection.connect(function (err) {
         if (err) throw err;
-        let avatar = user.user.avatarURL();
-        if (!avatar) avatar = null;
-        else avatar = user.user.avatarURL();
-        //"CREATE TABLE users (id VARCHAR(18) PRIMARY KEY, username VARCHAR(32), discriminator VARCHAR(4), avatarURL VARCHAR(255), creationDate DATE, joinDate DATE, isOnServer BOOLEAN)";
-        let insertValues = [user.user.id, user.user.username, user.user.discriminator, avatar, functions.formatDate(user.user.createdAt), functions.formatDate(user.joinedAt), true];
-        connection.query(`SELECT * FROM users WHERE id = '${user.user.id}'`, function (err, result) {
+        connection.query(`SELECT * FROM users WHERE id = '${user.user.id}'`, (err, result) => {
             if (err) throw err;
             if (result.length === 0) {
-                connection.query("INSERT INTO users (id, username, discriminator, avatarURL, creationDate, joinDate, isOnServer) VALUES (?)", [insertValues], function (err, result) {
+                connection.query(`INSERT INTO users VALUES ("${user.user.id}", 0, true)`, (err, result) => {
                     if (err) throw err;
                 });
                 return;
             } else {
-                connection.query(`UPDATE users SET id = '${user.user.id}', username = '${user.user.username}', discriminator = '${user.user.discriminator}', avatarURL = ${avatar}, creationDate = '${functions.formatDate(user.user.createdAt)}', joinDate = '${functions.formatDate(user.joinedAt)}', isOnServer = true WHERE id = '${user.user.id}'`, [insertValues], function (err, result) {
+                connection.query(`UPDATE users SET isOnServer = true WHERE id = '${user.user.id}'`, (err, result) => {
                     if (err) throw err;
                 });
                 return;
@@ -276,24 +235,33 @@ client.on("guildMemberRemove", function (user) {
     delete require.cache[require.resolve("./settings.json")], settings;
     connection.connect(function (err) {
         if (err) throw err;
-        let avatar = user.user.avatarURL()
-        let quot = "\'";
-        if (!avatar) {
-            avatar = null;
-        } else {
-            avatar = quot + user.user.avatarURL() + quot;
-        }
-        //CREATE TABLE users (id VARCHAR(18) PRIMARY KEY, username VARCHAR(32), discriminator VARCHAR(4), avatarURL VARCHAR(255), creationDate DATE(), joinDate DATE(), isOnServer BOOLEAN);
-        connection.query(`SELECT * FROM users WHERE id = '${user.user.id}'`, function (err, result) {
+        connection.query(`SELECT * FROM users WHERE id = '${user.user.id}'`, (err, result) => {
             if (err) throw err;
-            let insertValues = [user.user.id, user.user.username, user.user.discriminator, avatar, functions.formatDate(user.user.createdAt), functions.formatDate(user.joinedAt), false]
-            connection.query(`UPDATE users SET id = '${user.user.id}', username = '${user.user.username}', discriminator = '${user.user.discriminator}', avatarURL = ${avatar}, creationDate = '${functions.formatDate(user.user.createdAt)}', joinDate = '${functions.formatDate(user.joinedAt)}', isOnServer = false WHERE id = '${user.user.id}'`, [insertValues], function (err, result) {
+            connection.query(`UPDATE users SET isOnServer = false WHERE id = '${user.user.id}'`, (err, result) => {
                 if (err) throw err;
                 return;
             });
         });
     });
 });
+
+client.on("messageCreate", (message)=> {
+    let settings = require("./settings.json");
+    let connection = mysql.createConnection({
+        host: settings.mySQLhost,
+        user: settings.mySQLuser,
+        password: settings.mySQLpassword,
+        database: settings.mySQLdatabase
+    });
+    connection.query(`SELECT * FROM users WHERE id = "${message.author.id}";`, (err ,res)=> {
+        if (err) throw err;
+        if(res.length !== 0) return;
+        connection.query(`INSERT INTO users VALUES ("${message.author.id}", 0, true);`, (err, res)=>{
+            if (err) throw err;
+            return;
+        });
+    });
+})
 
 //Message counter
 client.on("messageCreate", async message => {
@@ -319,18 +287,18 @@ client.on("messageCreate", async message => {
             }
         }
         if (bulion === false) {
-            connection.query("ALTER TABLE messages ADD COLUMN " + columnName + " INT DEFAULT 0", function (err, result) {
+            connection.query("ALTER TABLE messages ADD COLUMN " + columnName + " INT DEFAULT 0", (err, result) => {
                 if (err) console.error(err);
                 return;
             });
         }
         return;
     });
-    connection.query(`SELECT * FROM messages WHERE id = '${message.author.id}'`, function (err, result) {
+    connection.query(`SELECT * FROM messages WHERE id = '${message.author.id}'`, (err, result) => {
         if (err) throw err;
         if (result.length === 0) {
             let insertValues = [message.author.id, 1, 1]
-            connection.query(`INSERT INTO messages (id, allMessages, ${columnName}) VALUES (?)`, [insertValues], function (err, result) {
+            connection.query(`INSERT INTO messages (id, allMessages, ${columnName}) VALUES (?)`, [insertValues], (err, result) => {
                 if (err) throw err;
                 return;
             });
